@@ -1,0 +1,41 @@
+## Exclude generated, platform and build artifacts from the published package
+# Keep the package small: only publish `lib/`, `pubspec.yaml`, README, LICENSE, CHANGELOG, and example sources.
+
+# Dart/Flutter build and tooling
+.dart_tool/
+build/
+/.dart_tool/
+.packages
+pubspec.lock
+
+# Editor and IDE
+.idea/
+.vscode/
+*.iml
+
+# Git
+.git/
+
+# Gradle / Android build
+.gradle/
+android/.gradle/
+android/app/build/
+
+# iOS/macOS/Windows/Linux platform projects (not needed for package consumers)
+android/
+ios/
+macos/
+linux/
+windows/
+web/
+
+# Example/temporary build outputs
+example/.dart_tool/
+example/build/
+
+# Optional: exclude large asset catalogs if platform folders are kept for any reason
+**/Assets.xcassets/
+**/AppIcon.appiconset/
+
+# Keep library sources (do not exclude `lib/`)
+!lib/
