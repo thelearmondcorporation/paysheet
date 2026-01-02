@@ -2,16 +2,64 @@ import 'package:flutter/material.dart';
 
 /// Styling-only paysheet: all payment logic and inputs removed.
 
-class StripePaymentResult {
+class PaymentResult {
   final bool success;
   final String? error;
   final String? errorMessage;
 
-  const StripePaymentResult({
+  const PaymentResult({
     required this.success,
     this.error,
     this.errorMessage,
   });
+}
+
+/// Convenience singleton that exposes a stable public API:
+/// `Paysheet.instance.present(...)` shows the paysheet directly.
+class Paysheet {
+  Paysheet._();
+  static final Paysheet instance = Paysheet._();
+
+  Future<PaymentResult?> present(
+    BuildContext context, {
+    required String method,
+    String? amount,
+    Map<String, dynamic>? merchantArgs,
+    bool mountOnShow = false,
+    bool enableStripeJs = false,
+    void Function(PaymentResult)? onResult,
+    Future<void> Function()? onPay,
+  }) {
+    return showModalBottomSheet<PaymentResult>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (modalContext) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.5,
+          minChildSize: 0.3,
+          maxChildSize: 0.9,
+          expand: false,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              ),
+              child: _StylingPaysheet(
+                method: method,
+                amount: amount,
+                merchantArgs: merchantArgs,
+                scrollController: scrollController,
+                onResult: (r) => onResult?.call(r),
+                onPay: onPay,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }
 
 String _formatAmountFromCents(int cents, {String currency = 'USD'}) {
@@ -42,55 +90,13 @@ Map<String, dynamic> computeEffectiveMerchantArgs({
   };
 }
 
-Future<StripePaymentResult?> showLpePaysheet(
-  BuildContext context, {
-  required String publishableKey,
-  String? clientSecret,
-  required String method,
-  String? amount,
-  Map<String, dynamic>? merchantArgs,
-  bool mountOnShow = false,
-  bool enableStripeJs = false,
-  void Function(StripePaymentResult)? onResult,
-  Future<void> Function()? onPay,
-}) async {
-  return showModalBottomSheet<StripePaymentResult>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (modalContext) {
-      return DraggableScrollableSheet(
-        initialChildSize: 0.5,
-        minChildSize: 0.3,
-        maxChildSize: 0.9,
-        expand: false,
-        builder: (context, scrollController) {
-          return Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            ),
-            child: _StylingPaysheet(
-              method: method,
-              amount: amount,
-              merchantArgs: merchantArgs,
-              scrollController: scrollController,
-              onResult: (r) => onResult?.call(r),
-              onPay: onPay,
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
+// Top-level `showLpePaysheet` removed; use `Paysheet.instance.present(...)`.
 class _StylingPaysheet extends StatelessWidget {
   final String method;
   final String? amount;
   final Map<String, dynamic>? merchantArgs;
   final ScrollController? scrollController;
-  final void Function(StripePaymentResult) onResult;
+  final void Function(PaymentResult) onResult;
   final Future<void> Function()? onPay;
 
   const _StylingPaysheet({
@@ -140,9 +146,8 @@ class _StylingPaysheet extends StatelessWidget {
     for (final s in summaryItems) {
       try {
         final label = s['label']?.toString() ?? 'Item';
-        final amountCents = (s['amountCents'] is int)
-            ? s['amountCents'] as int
-            : 0;
+        final amountCents =
+            (s['amountCents'] is int) ? s['amountCents'] as int : 0;
         final amount = _formatAmountFromCents(amountCents);
         children.add(
           Padding(

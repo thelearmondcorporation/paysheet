@@ -14,9 +14,8 @@ class ExampleApp extends StatelessWidget {
           child: ElevatedButton(
             child: Text('Open Paysheet'),
             onPressed: () async {
-              await showLpePaysheet(
+              await Paysheet.instance.present(
                 context,
-                publishableKey: 'pk_test_example',
                 method: 'card',
                 amount: '9.99',
                 onPay: () async {

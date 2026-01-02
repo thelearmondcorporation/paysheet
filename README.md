@@ -7,20 +7,18 @@ integration where the host app handles payment interactions.
 ## Features
 
 - Stylized paysheet layout with merchant header and summary list
-- Lightweight `showLpePaysheet` API
-- Exposes the `onPay` API for easy server side integration.
+- Lightweight `Paysheet.instance.present` API
 - Example app included
 
 ## Quick example
 
 ```dart
-await showLpePaysheet(
+await Paysheet.instance.present(
   context,
-  publishableKey: 'pk_test_xxx',
   method: 'card',
   amount: '9.99',
   onPay: () async {
-    // call your server or stripe integration here
+    // call your server side integration here
   },
 );
 ```
@@ -28,7 +26,7 @@ await showLpePaysheet(
 ## License
 MIT
 
-## Author 
+## Author
 The Learmond Corporation
 
 

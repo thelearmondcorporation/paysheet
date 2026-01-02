@@ -98,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
                 await Paysheet.instance.present(
                   context,
-                  publishableKey: 'pk_test_placeholder',
                   method: 'card',
                   amount: '1.00',
                 );

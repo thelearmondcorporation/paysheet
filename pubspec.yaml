@@ -1,8 +1,8 @@
 # Package metadata
 name: paysheet
 description: "A lightweight, styling-only paysheet UI for Flutter."
-repository: https://github.com/tlearmond1/thelearmondcorporation/paysheet
-homepage: https://github.com/tlearmond1/thelearmondcorporation/paysheet#readme 
+repository: https://github.com/thelearmondcorporation/paysheet.git
+homepage: https://github.com/thelearmondcorporation/paysheet 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 ## publish_to:
@@ -21,7 +21,7 @@ homepage: https://github.com/tlearmond1/thelearmondcorporation/paysheet#readme
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.0.0+2
+version: 2.0.0+3
 
 environment:
   sdk: '>=2.17.0 <4.0.0'
