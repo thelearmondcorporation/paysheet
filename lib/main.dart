@@ -100,6 +100,58 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   method: 'card',
                   amount: '1.00',
+                  uiAdjust: UIAdjust(u: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: const [],
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                  hintText: 'Card number',
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: 80,
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                  hintText: 'MM/YY',
+                                ),
+                                keyboardType: TextInputType.datetime,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: 70,
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                  hintText: 'CVV',
+                                ),
+                                keyboardType: TextInputType.number,
+                                obscureText: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
                 );
               },
               child: const Text('Open Paysheet (styling only)'),
