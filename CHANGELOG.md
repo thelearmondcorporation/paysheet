@@ -1,4 +1,4 @@
-## 2.0.0+3
+## 2.0.0+4
 
 -  Styling-only paysheet UI
 - Includes `onPay` callback so host apps can integrate payment flows
